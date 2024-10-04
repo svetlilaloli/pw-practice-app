@@ -1,11 +1,14 @@
 import { test, expect } from '@playwright/test';
 
+test.describe.configure({ mode: 'parallel'}) // to run all tests in the file in parallel
+
 test.beforeEach(async ({ page }) => {
     await page.goto('/')
 })
 
 test.describe('Form Layouts page', () => {
     test.describe.configure({ retries: 2 }) // configure retries for specific tests
+    test.describe.configure({ mode: 'serial'}) // to run the tests in this section sequentially
 
     test.beforeEach(async ({ page }) => {
         await page.getByText('Forms').click()
