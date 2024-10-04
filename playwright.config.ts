@@ -36,6 +36,10 @@ export default defineConfig({
     trace: 'on-first-retry',
     // actionTimeout: 5000, // default is 'no timeout'
     // navigationTimeout: 5000, // default is 'no timeout'
+    video: { // for video recording the test should be run from the CLI
+      mode: 'on',
+      size: { width: 1920, height: 1020 } // full HD
+    },
   },
 
   /* Configure projects for major browsers */
