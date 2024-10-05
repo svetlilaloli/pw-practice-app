@@ -1,16 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
+import type { TestOptions } from './test-options'
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// import dotenv from 'dotenv';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+require('dotenv').config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<TestOptions>({
   // timeout: 10000, // overwriting the default test timeout of 30000ms
   // globalTimeout: 60000, // the whole test run, default is 'no timeout'
   // expect: { // overwriting the default expect timeout of 5000ms
@@ -30,8 +30,11 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:4200',
-
+    // baseURL: 'http://localhost:4200',
+    baseURL: process.env.DEV === '1' ? 'http://localhost:4201'
+          : process.env.STAGING === '1' ? 'http://localhost:4202'
+          : 'http://localhost:4200',
+    globalsQaUrl: 'https://www.globalsqa.com/demo-site/draganddrop/',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     // actionTimeout: 5000, // default is 'no timeout'
@@ -44,6 +47,13 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    {
+      name: 'dev', // creating different environments
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:4200',
+      }
+    },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },

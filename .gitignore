@@ -33,6 +33,7 @@ testem.log
 /typings
 /docs
 /screenshots/
+.env
 
 # e2e
 /e2e/*.js

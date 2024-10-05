@@ -21,7 +21,7 @@ test('parameterised methods', async ({ page }) => {
 	const randomEmail = `${randomFullName.replace(' ', '')}${faker.number.int(1000)}@test.com`
 
 	await pm.navigateTo().formLayoutsPage()
-	await pm.onFormLayoutsPage().submitUsingTheGridFormWithCredentialsAndSelectOption('test@test.com', 'Welcome1', 'Option 1')
+	await pm.onFormLayoutsPage().submitUsingTheGridFormWithCredentialsAndSelectOption(process.env.USERNAME, process.env.PASSWORD, 'Option 1')
 	// screenshot of the whole page
 	await page.screenshot({ path: 'screenshots/formsLayoutsPage.png'})
 	// save as binary
