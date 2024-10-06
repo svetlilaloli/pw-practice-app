@@ -9,7 +9,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "dev": "DEV=1 npx playwright test --project=chromium"
+    "dev": "DEV=1 npx playwright test --project=chromium",
+    "prod": "npx playwright test --config=playwright-prod.config.ts"
   },
   "dependencies": {
     "@angular/animations": "^14.2.12",

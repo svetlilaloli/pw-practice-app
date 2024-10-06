@@ -1,51 +1,30 @@
 import { defineConfig, devices } from '@playwright/test';
 import type { TestOptions } from './test-options'
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
 require('dotenv').config();
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
 export default defineConfig<TestOptions>({
-  // timeout: 10000, // overwriting the default test timeout of 30000ms
-  // globalTimeout: 60000, // the whole test run, default is 'no timeout'
-  // expect: { // overwriting the default expect timeout of 5000ms
-  //   timeout: 3000
-  // },
-  testDir: './tests',
-  /* Run tests in files in parallel */
-  fullyParallel: false,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 1,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  timeout: 40000, // overwriting the default test timeout of 30000ms
+  globalTimeout: 60000, // the whole test run, default is 'no timeout'
+  expect: { // overwriting the default expect timeout of 5000ms
+    timeout: 2000
+  },
+  retries: 1,
   reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://localhost:4200',
+  use: { // run-time
     baseURL: process.env.DEV === '1' ? 'http://localhost:4201'
-          : process.env.STAGING === '1' ? 'http://localhost:4202'
-          : 'http://localhost:4200',
+      : process.env.STAGING === '1' ? 'http://localhost:4202'
+        : 'http://localhost:4200',
     globalsQaUrl: 'https://www.globalsqa.com/demo-site/draganddrop/',
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    // actionTimeout: 5000, // default is 'no timeout'
-    // navigationTimeout: 5000, // default is 'no timeout'
+    actionTimeout: 20000, // default is 'no timeout'
+    navigationTimeout: 25000, // default is 'no timeout'
     video: { // for video recording the test should be run from the CLI
-      mode: 'on',
-      size: { width: 1920, height: 1020 } // full HD
+      mode: 'off',
+      size: { width: 1920, height: 1200 } // full HD
     },
   },
 
-  /* Configure projects for major browsers */
   projects: [
     {
       name: 'dev', // creating different environments
@@ -55,49 +34,22 @@ export default defineConfig<TestOptions>({
       }
     },
     {
+      name: 'pageObjectFullScreen',
+      testMatch: 'usePageObjects.spec.ts',
+      use: {
+        viewport: { width: 1920, height: 1200 }
+      }
+    },
+    {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
       fullyParallel: true // only for this project
     },
 
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' }, // or 'msedge-dev'
-    // },
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+    {
+      name: 'firefox',
+      use: {
+        browserName: 'firefox'
+      },
+    }
+  ]
 });
