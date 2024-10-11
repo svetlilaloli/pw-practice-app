@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
     await page.goto('/')
 })
 
-test.describe('Form Layouts page', () => {
+test.describe('Form Layouts page @block', () => {
     test.describe.configure({ retries: 2 }) // configure retries for specific tests
     test.describe.configure({ mode: 'serial'}) // to run the tests in this section sequentially
 
