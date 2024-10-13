@@ -32,8 +32,8 @@ npm-debug.log
 testem.log
 /typings
 /docs
-/screenshots/
 .env
+/screenshots/
 playwright-prod.config.ts
 
 # e2e
@@ -43,6 +43,7 @@ playwright-prod.config.ts
 # System Files
 .DS_Store
 Thumbs.db
+node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
