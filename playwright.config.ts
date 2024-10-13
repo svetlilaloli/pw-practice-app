@@ -50,6 +50,14 @@ export default defineConfig<TestOptions>({
       use: {
         browserName: 'firefox'
       },
+    },
+    {
+      name: 'mobile',
+      testMatch: 'testMobile.spec.ts',
+      use: {
+        ...devices['Galaxy S9+'],
+        // viewport: { width: 430, height: 739 }
+      }
     }
   ]
 });
