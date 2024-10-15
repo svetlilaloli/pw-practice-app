@@ -35,6 +35,7 @@ testem.log
 .env
 /screenshots/
 playwright-prod.config.ts
+/tests/uiComponents.spec.ts-snapshots/ 
 
 # e2e
 /e2e/*.js

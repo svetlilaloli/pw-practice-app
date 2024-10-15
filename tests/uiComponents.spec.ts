@@ -1,14 +1,14 @@
 import { test, expect } from '@playwright/test';
 
-test.describe.configure({ mode: 'parallel'}) // to run all tests in the file in parallel
+test.describe.configure({ mode: 'parallel' }) // to run all tests in the file in parallel
 
 test.beforeEach(async ({ page }) => {
     await page.goto('/')
 })
 
 test.describe('Form Layouts page @block', () => {
-    test.describe.configure({ retries: 2 }) // configure retries for specific tests
-    test.describe.configure({ mode: 'serial'}) // to run the tests in this section sequentially
+    test.describe.configure({ retries: 0 }) // configure retries for specific tests
+    test.describe.configure({ mode: 'serial' }) // to run the tests in this section sequentially
 
     test.beforeEach(async ({ page }) => {
         await page.getByText('Forms').click()
@@ -16,7 +16,7 @@ test.describe('Form Layouts page @block', () => {
     })
 
     test('input fields', async ({ page }, testInfo) => {
-        if (testInfo.retry){
+        if (testInfo.retry) {
             // do something
         }
         const usingTheGridEmailInput = page.locator('nb-card', { hasText: 'Using the Grid' }).getByRole('textbox', { name: 'Email' })
@@ -43,6 +43,7 @@ test.describe('Form Layouts page @block', () => {
 
         // generic assertion
         const radioStatus = await usingTheGridForm.getByRole('radio', { name: 'Option 1' }).isChecked()
+        // await expect(usingTheGridForm).toHaveScreenshot()
         expect(radioStatus).toBeTruthy()
 
         // locator assertion
