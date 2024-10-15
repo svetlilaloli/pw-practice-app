@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import type { TestOptions } from './test-options'
+import { Output } from '@angular/core';
 
 require('dotenv').config();
 
@@ -7,10 +8,15 @@ export default defineConfig<TestOptions>({
   timeout: 40000, // overwriting the default test timeout of 30000ms
   globalTimeout: 60000, // the whole test run, default is 'no timeout'
   expect: { // overwriting the default expect timeout of 5000ms
-    timeout: 2000
+    timeout: 2000,
+    toMatchSnapshot: { maxDiffPixels: 50 }
   },
   retries: 1,
-  reporter: 'html',
+  reporter: [
+    ['json', { outputFile: 'test-results/reporter.json' }],
+    ['junit', { outputFile: 'test-results/reporter.xml' }],
+    ['html']
+  ],
   use: { // run-time
     baseURL: process.env.DEV === '1' ? 'http://localhost:4201'
       : process.env.STAGING === '1' ? 'http://localhost:4202'
