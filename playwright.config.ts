@@ -13,6 +13,14 @@ export default defineConfig<TestOptions>({
   },
   retries: 1,
   reporter: [
+    process.env.CI ? ["dot"] : ["list"],
+    [
+      "@argos-ci/playwright/reporter",
+      {
+        // Upload to Argos on CI only.
+        uploadToArgos: !!process.env.CI,
+      },
+    ],
     ['json', { outputFile: 'test-results/reporter.json' }],
     ['junit', { outputFile: 'test-results/reporter.xml' }],
     ['html']
@@ -23,6 +31,7 @@ export default defineConfig<TestOptions>({
         : 'http://localhost:4200',
     globalsQaUrl: 'https://www.globalsqa.com/demo-site/draganddrop/',
     trace: 'on-first-retry',
+    screenshot: "only-on-failure",
     actionTimeout: 20000, // default is 'no timeout'
     navigationTimeout: 25000, // default is 'no timeout'
     video: { // for video recording the test should be run from the CLI
