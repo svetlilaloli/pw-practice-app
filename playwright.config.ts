@@ -6,7 +6,7 @@ require('dotenv').config();
 
 export default defineConfig<TestOptions>({
   timeout: 40000, // overwriting the default test timeout of 30000ms
-  globalTimeout: 60000, // the whole test run, default is 'no timeout'
+  // globalTimeout: 60000, // the whole test run, default is 'no timeout'
   expect: { // overwriting the default expect timeout of 5000ms
     timeout: 2000,
     toMatchSnapshot: { maxDiffPixels: 50 }
@@ -65,5 +65,9 @@ export default defineConfig<TestOptions>({
         // viewport: { width: 430, height: 739 }
       }
     }
-  ]
+  ],
+  webServer: {
+    command: 'npm run start',
+    url: 'http://localhost:4200',
+  }
 });
